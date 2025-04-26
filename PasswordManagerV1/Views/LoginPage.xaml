@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PasswordManagerV1.Views.LoginPage"
+             Title="Вход">
+
+    <!-- Основной контейнер -->
+    <ScrollView>
+
+        <Frame Padding="30" 
+           CornerRadius="10" 
+           BackgroundColor="White" 
+           VerticalOptions="Center" 
+           HorizontalOptions="Center" 
+           WidthRequest="300">
+            <StackLayout Spacing="15">
+                
+                <StackLayout Padding="20" 
+                     VerticalOptions="Center" 
+                     HorizontalOptions="Center" 
+                     WidthRequest="300" 
+                     Spacing="15">
+
+            <!-- Заголовок -->
+            <Label Text="Добро пожаловать!" 
+                   FontSize="Large" 
+                   HorizontalOptions="Center" 
+                   TextColor="Black"
+                   Margin="0,0,0,10" />
+
+            <!-- Поле для имени пользователя -->
+            <Entry x:Name="UserNameEntry" 
+                   Placeholder="Имя пользователя" 
+                   Keyboard="Default" 
+                   BackgroundColor="LightGray" 
+                   TextColor="Black" 
+                   HeightRequest="40" />
+
+            <!-- Поле для пароля -->
+            <Entry x:Name="PasswordEntry" 
+                   Placeholder="Пароль" 
+                   IsPassword="True" 
+                   Keyboard="Default" 
+                   BackgroundColor="LightGray" 
+                   TextColor="Black" 
+                   HeightRequest="40" />
+
+            <!-- Кнопка входа -->
+            <Button Text="Войти" 
+                    Clicked="OnLoginClicked" 
+                    BackgroundColor="DodgerBlue" 
+                    TextColor="White" 
+                    CornerRadius="5" 
+                    HeightRequest="40" />
+
+            <!-- Кнопка регистрации -->
+            <Button Text="Зарегистрироваться" 
+                    Clicked="OnRegisterClicked" 
+                    BackgroundColor="Green" 
+                    TextColor="White" 
+                    CornerRadius="5" 
+                    HeightRequest="40" />
+            </StackLayout>
+            </StackLayout>
+        </Frame>
+    </ScrollView>
+</ContentPage>

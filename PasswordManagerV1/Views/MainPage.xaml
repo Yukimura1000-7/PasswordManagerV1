@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PasswordManagerV1.Views.MainPage"
+             Title="Пароль менеджер">
+
+    <StackLayout>
+        <Label Text="Пароль менеджер" 
+               FontSize="Large" 
+               HorizontalOptions="Center" 
+               Margin="0,20,0,10"
+               Style="{DynamicResource LightLabel}" />
+
+        <ListView ItemsSource="{Binding Accounts}" 
+          ItemTapped="OnAccountSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding ServiceName}" 
+                           FontAttributes="Bold" 
+                           FontSize="Medium" />
+                            <Label Text="{Binding Login}" 
+                           FontSize="Small" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Text="Добавить аккаунт" 
+                Command="{Binding AddAccountCommand}" 
+                Style="{DynamicResource LightButton}" 
+                CornerRadius="5" 
+                Margin="10" />
+
+        <Button Text="Переключить тему" 
+                Clicked="OnThemeChanged" 
+                Style="{DynamicResource LightButton}" 
+                Margin="10" />
+    </StackLayout>
+</ContentPage>

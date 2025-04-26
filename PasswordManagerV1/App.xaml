@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PasswordManagerV1.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Светлая тема -->
+            <Style x:Key="LightTheme" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="White" />
+            </Style>
+            <Style x:Key="LightLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style x:Key="LightButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="DodgerBlue" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+
+            <!-- Темная тема -->
+            <Style x:Key="DarkTheme" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="Black" />
+            </Style>
+            <Style x:Key="DarkLabel" TargetType="Label">
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+            <Style x:Key="DarkButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Gray" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
