@@ -9,7 +9,6 @@ namespace PasswordManagerV1.Services
     {
         private readonly SQLiteAsyncConnection _database;
 
-
         public DatabaseService(string dbPath)
         {
             _database = new SQLiteAsyncConnection(dbPath);
@@ -18,27 +17,17 @@ namespace PasswordManagerV1.Services
         }
 
         // Методы для UserAccount
-        public async Task<List<UserAccount>> GetAccountsAsync(int userId)
+        public Task<List<UserAccount>> GetAccountsAsync(int userId) =>
+            _database.Table<UserAccount>().Where(a => a.UserId == userId).ToListAsync();
+
+        public Task<int> SaveAccountAsync(UserAccount account)
         {
             try
             {
-                var accounts = await _database.Table<UserAccount>().Where(a => a.UserId == userId).ToListAsync();
-                Console.WriteLine($"Found {accounts.Count} accounts for user {userId}");
-                return accounts;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error getting accounts: {ex.Message}");
-                throw;
-            }
-        }
-        public async Task<int> SaveAccountAsync(UserAccount account)
-        {
-            try
-            {
-                var rowsAffected = await _database.InsertAsync(account);
-                Console.WriteLine($"Inserted account with ID {account.Id} for user {account.UserId}");
-                return rowsAffected;
+                Console.WriteLine($"Attempting to save account: UserId={account.UserId}, ServiceName={account.ServiceName}, Login={account.Login}");
+                var rowsAffected = _database.InsertAsync(account).Result;
+                Console.WriteLine($"Inserted account with ID {account.Id}. Rows affected: {rowsAffected}");
+                return Task.FromResult(rowsAffected);
             }
             catch (Exception ex)
             {

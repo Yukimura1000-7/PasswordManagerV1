@@ -1,51 +1,50 @@
 ﻿using PasswordManagerV1.ViewModels;
-using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace PasswordManagerV1.Views;
 
 public partial class MainPage : ContentPage
 {
-    public MainPage(MainViewModel viewModel)
+    public MainPage(ViewModels.MainViewModel viewModel)
     {
         InitializeComponent();
         BindingContext = viewModel;
 
-        // Установка начальной темы
-        UpdateTheme(Application.Current.RequestedTheme);
     }
 
+    private async void OnAddAccountClicked(object sender, EventArgs e)
+    {
+        var serviceName = ServiceNameEntry.Text;
+        var login = LoginEntry.Text;
+        var password = PasswordEntry.Text;
+
+        if (string.IsNullOrEmpty(serviceName) || string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+        {
+            await DisplayAlert("Ошибка", "Заполните все поля.", "OK");
+            return;
+        }
+
+        // Вызываем AddAccountCommand с параметрами
+        ((ViewModels.MainViewModel)BindingContext).AddAccountCommand.Execute(
+            new string[] { serviceName, login, password }
+        );
+
+        // Очищаем поля ввода
+        ServiceNameEntry.Text = string.Empty;
+        LoginEntry.Text = string.Empty;
+        PasswordEntry.Text = string.Empty;
+
+        // Перезагружаем данные
+        ((ViewModels.MainViewModel)BindingContext).LoadAccountsCommand.Execute(null);
+
+        await DisplayAlert("Успех", "Аккаунт успешно добавлен.", "OK");
+    }
     private void OnAccountSelected(object sender, ItemTappedEventArgs e)
     {
         if (e.Item is Models.UserAccount account)
         {
-            ((MainViewModel)BindingContext).CopyPasswordCommand.Execute(account.EncryptedPassword);
-        }
-    }
-
-    private void OnThemeChanged(object sender, System.EventArgs e)
-    {
-        // Переключение темы
-        var currentTheme = Application.Current.RequestedTheme;
-        var newTheme = currentTheme == AppTheme.Light ? AppTheme.Dark : AppTheme.Light;
-        Application.Current.UserAppTheme = newTheme;
-
-        // Обновление интерфейса
-        UpdateTheme(newTheme);
-    }
-
-    private void UpdateTheme(AppTheme theme)
-    {
-        if (theme == AppTheme.Light)
-        {
-            this.Style = (Style)Application.Current.Resources["LightTheme"];
-            Resources["LabelStyle"] = Application.Current.Resources["LightLabel"];
-            Resources["ButtonStyle"] = Application.Current.Resources["LightButton"];
-        }
-        else
-        {
-            this.Style = (Style)Application.Current.Resources["DarkTheme"];
-            Resources["LabelStyle"] = Application.Current.Resources["DarkLabel"];
-            Resources["ButtonStyle"] = Application.Current.Resources["DarkButton"];
+            ((ViewModels.MainViewModel)BindingContext).CopyPasswordCommand.Execute(account.EncryptedPassword);
         }
     }
 }

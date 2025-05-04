@@ -1,67 +1,76 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage 
+             xmlns:local="clr-namespace:PasswordManagerV1"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PasswordManagerV1.Views.LoginPage"
-             Title="Вход">
-
-    <!-- Основной контейнер -->
-    <ScrollView>
-
-        <Frame Padding="30" 
-           CornerRadius="10" 
-           BackgroundColor="White" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" 
-           WidthRequest="300">
-            <StackLayout Spacing="15">
-                
-                <StackLayout Padding="20" 
+             x:Class="PasswordManagerV1.Views.LoginPage" MaximumHeightRequest="400" MaximumWidthRequest="400" AutomationProperties.IsInAccessibleTree="True" HeightRequest="400" WidthRequest="400">
+    <Grid HorizontalOptions="Center"
+          BackgroundColor="gray">
+        <Frame WidthRequest="380"
+           HeightRequest="450"
+           CornerRadius="20"
+           BackgroundColor="White"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"
+           Padding="20">
+        <ScrollView HorizontalOptions="Center">
+            <StackLayout Padding="20" 
                      VerticalOptions="Center" 
                      HorizontalOptions="Center" 
-                     WidthRequest="300" 
+                     WidthRequest="320" 
                      Spacing="15">
 
-            <!-- Заголовок -->
-            <Label Text="Добро пожаловать!" 
-                   FontSize="Large" 
-                   HorizontalOptions="Center" 
+                <!-- Заголовок -->
+                <Label Text="Добро пожаловать!" 
+                   FontSize="Header" 
                    TextColor="Black"
-                   Margin="0,0,0,10" />
+                   HorizontalOptions="CenterAndExpand" 
+                   Margin="-20,0,10,10" VerticalOptions="Center" />
 
-            <!-- Поле для имени пользователя -->
-            <Entry x:Name="UserNameEntry" 
+                <!-- Поле для имени пользователя -->
+                    <Entry x:Name="UserNameEntry" 
                    Placeholder="Имя пользователя" 
+                   PlaceholderColor="Black"
                    Keyboard="Default" 
-                   BackgroundColor="LightGray" 
+                   BackgroundColor="Gray" 
                    TextColor="Black" 
-                   HeightRequest="40" />
+                   HeightRequest="40"
+                   Margin="-20,0,20,0"
+                   MaxLength="40">
+                    </Entry>
 
-            <!-- Поле для пароля -->
-            <Entry x:Name="PasswordEntry" 
+                        <!-- Поле для пароля -->
+                    <Entry x:Name="PasswordEntry" 
                    Placeholder="Пароль" 
+                   PlaceholderColor="Black"
                    IsPassword="True" 
-                   Keyboard="Default" 
-                   BackgroundColor="LightGray" 
+                   BackgroundColor="Gray" 
                    TextColor="Black" 
-                   HeightRequest="40" />
-
-            <!-- Кнопка входа -->
-            <Button Text="Войти" 
+                   HeightRequest="40"
+                   Margin="-20,0,20,0"
+                   MaxLength="40">
+                    </Entry>
+                
+                
+                    <!-- Кнопка входа -->
+                <Button Text="Войти" 
                     Clicked="OnLoginClicked" 
                     BackgroundColor="DodgerBlue" 
                     TextColor="White" 
                     CornerRadius="5" 
-                    HeightRequest="40" />
+                    HeightRequest="40"
+                    Margin="-20,0,20,0"/>
 
-            <!-- Кнопка регистрации -->
-            <Button Text="Зарегистрироваться" 
+                <!-- Кнопка регистрации -->
+                <Button Text="Зарегистрироваться" 
                     Clicked="OnRegisterClicked" 
                     BackgroundColor="Green" 
                     TextColor="White" 
                     CornerRadius="5" 
-                    HeightRequest="40" />
+                    HeightRequest="40"
+                    Margin="-20,0,20,0"/>
             </StackLayout>
-            </StackLayout>
+        </ScrollView>
         </Frame>
-    </ScrollView>
+    </Grid>
 </ContentPage>

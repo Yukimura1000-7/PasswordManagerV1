@@ -14,7 +14,7 @@ namespace PasswordManagerV1.ViewModels
 
         protected bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
         {
-            if (EqualityComparer<T>.Default.Equals(backingField, value))
+            if (EqualityComparer<T>.Default.Equals(backingField, value) && !string.IsNullOrEmpty(propertyName))
                 return false;
 
             backingField = value;

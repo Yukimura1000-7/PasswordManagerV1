@@ -2,41 +2,68 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PasswordManagerV1.Views.MainPage"
-             Title="Пароль менеджер">
+             Title="Сохраненные аккаунты">
 
-    <StackLayout>
-        <Label Text="Пароль менеджер" 
+    <StackLayout Padding="20">
+        <!-- Заголовок -->
+        <Label Text="Добавить новый аккаунт" 
                FontSize="Large" 
                HorizontalOptions="Center" 
-               Margin="0,20,0,10"
-               Style="{DynamicResource LightLabel}" />
+               Margin="0,0,0,10" />
 
+        <!-- Поле для ввода сервиса -->
+        <Entry x:Name="ServiceNameEntry" 
+               Text="{Binding ServiceName}" 
+               Placeholder="Название сервиса" 
+               Keyboard="Default" 
+               BackgroundColor="LightGray" 
+               TextColor="Black" 
+               HeightRequest="40" />
+        
+        <!--Поле для ввода пользовательского логина-->
+        <Entry x:Name="LoginEntry" 
+               Text="{Binding Login}" 
+               Placeholder="Логин" 
+               Keyboard="Default" 
+               BackgroundColor="LightGray" 
+               TextColor="Black" 
+               HeightRequest="40" />
+
+        <!--Поле для ввода пользовательского пароля-->
+        <Entry x:Name="PasswordEntry" 
+               Text="{Binding Password}" 
+               Placeholder="Пароль" 
+               IsPassword="True" 
+               Keyboard="Default" 
+               BackgroundColor="LightGray" 
+               TextColor="Black" 
+               HeightRequest="40" />
+        
+        <!-- Кнопка добавления аккаунта -->
+        <Button Text="Добавить аккаунт" 
+                Clicked="OnAddAccountClicked" 
+                BackgroundColor="DodgerBlue" 
+                TextColor="White" 
+                CornerRadius="5" 
+                HeightRequest="40" 
+                Margin="0,10,0,0" />
+
+        <!-- Список сохраненных аккаунтов -->
         <ListView ItemsSource="{Binding Accounts}" 
-          ItemTapped="OnAccountSelected">
+                  ItemTapped="OnAccountSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="10">
                             <Label Text="{Binding ServiceName}" 
-                           FontAttributes="Bold" 
-                           FontSize="Medium" />
+                                   FontAttributes="Bold" 
+                                   FontSize="Medium" />
                             <Label Text="{Binding Login}" 
-                           FontSize="Small" />
+                                   FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <Button Text="Добавить аккаунт" 
-                Command="{Binding AddAccountCommand}" 
-                Style="{DynamicResource LightButton}" 
-                CornerRadius="5" 
-                Margin="10" />
-
-        <Button Text="Переключить тему" 
-                Clicked="OnThemeChanged" 
-                Style="{DynamicResource LightButton}" 
-                Margin="10" />
     </StackLayout>
 </ContentPage>

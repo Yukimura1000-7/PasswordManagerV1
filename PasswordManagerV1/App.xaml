@@ -4,28 +4,32 @@
              x:Class="PasswordManagerV1.App">
     <Application.Resources>
         <ResourceDictionary>
-            <!-- Светлая тема -->
-            <Style x:Key="LightTheme" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="White" />
-            </Style>
-            <Style x:Key="LightLabel" TargetType="Label">
+            <!-- Стили для светлой темы -->
+            <Style TargetType="Label" x:Key="LightText">
                 <Setter Property="TextColor" Value="Black" />
             </Style>
-            <Style x:Key="LightButton" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="DodgerBlue" />
+            <Style TargetType="Entry" x:Key="LightInput">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style TargetType="Button" x:Key="LightButton">
+                <Setter Property="BackgroundColor" Value="#0078D4" />
                 <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="10" />
             </Style>
 
-            <!-- Темная тема -->
-            <Style x:Key="DarkTheme" TargetType="ContentPage">
-                <Setter Property="BackgroundColor" Value="Black" />
-            </Style>
-            <Style x:Key="DarkLabel" TargetType="Label">
+            <!-- Стили для темной темы -->
+            <Style TargetType="Label" x:Key="DarkText">
                 <Setter Property="TextColor" Value="White" />
             </Style>
-            <Style x:Key="DarkButton" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="Gray" />
+            <Style TargetType="Entry" x:Key="DarkInput">
+                <Setter Property="BackgroundColor" Value="#1E1E1E" />
                 <Setter Property="TextColor" Value="White" />
+            </Style>
+            <Style TargetType="Button" x:Key="DarkButton">
+                <Setter Property="BackgroundColor" Value="#212121" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="10" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

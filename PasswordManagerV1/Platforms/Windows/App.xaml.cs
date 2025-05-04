@@ -1,25 +1,39 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+namespace PasswordManagerV1.WinUI;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace PasswordManagerV1.WinUI
+public partial class App : MauiWinUIApplication
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    public partial class App : MauiWinUIApplication
+    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App()
+        base.OnLaunched(args);
+
+        // Получаем текущее окно
+        var window = new Microsoft.UI.Xaml.Window();
+        var handle = WinRT.Interop.WindowNative.GetWindowHandle(window);
+        var id = Win32Interop.GetWindowIdFromWindow(handle);
+        var appWindow = AppWindow.GetFromWindowId(id);
+
+        if (appWindow != null)
         {
-            this.InitializeComponent();
+            // Устанавливаем размер окна (например, 800x600 пикселей)
+            appWindow.Resize(new SizeInt32(400, 400));
+
+            // Центрируем окно на экране
+            var displayArea = DisplayArea.GetFromWindowId(id, DisplayAreaFallback.Nearest);
+            var centerPoint = new PointInt32(
+                (displayArea.WorkArea.Width - 400) / 2 + displayArea.WorkArea.X,
+                (displayArea.WorkArea.Height - 400) / 2 + displayArea.WorkArea.Y
+            );
+            appWindow.Move(centerPoint);
+
+            // Запрещаем изменение размера окна
+            appWindow.SetPresenter(AppWindowPresenterKind.Default); // Фиксированный размер
         }
-
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
-
 }

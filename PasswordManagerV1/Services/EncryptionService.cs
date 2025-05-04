@@ -7,6 +7,7 @@ namespace PasswordManagerV1.Services
 {
     public static class EncryptionService
     {
+        // Ключ должен быть длиной 32 байта (AES-256)
         private static readonly byte[] Key = new byte[32]
         {
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -15,6 +16,7 @@ namespace PasswordManagerV1.Services
             0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
         };
 
+        // Вектор инициализации (IV) должен быть длиной 16 байт
         private static readonly byte[] IV = new byte[16]
         {
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
@@ -23,35 +25,26 @@ namespace PasswordManagerV1.Services
 
         public static string Encrypt(string plainText)
         {
-            try
+            using (Aes aes = Aes.Create())
             {
-                using (Aes aes = Aes.Create())
+                aes.Key = Key;
+                aes.IV = IV;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (var ms = new MemoryStream())
                 {
-                    aes.Key = Key;
-                    aes.IV = IV;
-
-                    ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                    using (var ms = new MemoryStream())
+                    using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
                     {
-                        using (var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+                        using (var sw = new StreamWriter(cs))
                         {
-                            using (var sw = new StreamWriter(cs))
-                            {
-                                sw.Write(plainText);
-                            }
+                            sw.Write(plainText);
                         }
-                        return Convert.ToBase64String(ms.ToArray());
                     }
+                    return Convert.ToBase64String(ms.ToArray());
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error during encryption: {ex.Message}");
-                return null; // Возвращаем null в случае ошибки
-            }
         }
-
 
         public static string Decrypt(string cipherText)
         {
@@ -73,7 +66,6 @@ namespace PasswordManagerV1.Services
                     }
                 }
             }
-
         }
     }
 }
