@@ -25,6 +25,9 @@ namespace PasswordManagerV1.Services
 
         public static string Encrypt(string plainText)
         {
+            if (string.IsNullOrEmpty(plainText))
+                return string.Empty;
+
             using (Aes aes = Aes.Create())
             {
                 aes.Key = Key;
@@ -48,23 +51,33 @@ namespace PasswordManagerV1.Services
 
         public static string Decrypt(string cipherText)
         {
-            using (Aes aes = Aes.Create())
+            if (string.IsNullOrEmpty(cipherText))
+                return string.Empty;
+
+            try
             {
-                aes.Key = Key;
-                aes.IV = IV;
-
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (var ms = new MemoryStream(Convert.FromBase64String(cipherText)))
+                using (Aes aes = Aes.Create())
                 {
-                    using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
+                    aes.Key = Key;
+                    aes.IV = IV;
+
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    using (var ms = new MemoryStream(Convert.FromBase64String(cipherText)))
                     {
-                        using (var sr = new StreamReader(cs))
+                        using (var cs = new CryptoStream(ms, decryptor, CryptoStreamMode.Read))
                         {
-                            return sr.ReadToEnd();
+                            using (var sr = new StreamReader(cs))
+                            {
+                                return sr.ReadToEnd();
+                            }
                         }
                     }
                 }
+            }
+            catch
+            {
+                return string.Empty;
             }
         }
     }

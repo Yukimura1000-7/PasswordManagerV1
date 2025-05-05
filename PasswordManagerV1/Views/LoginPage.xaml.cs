@@ -20,7 +20,7 @@ public partial class LoginPage : ContentPage
         var password = PasswordEntry.Text;
 
         if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
-        {
+        {   
             await DisplayAlert("Ошибка", "Введите имя пользователя и пароль", "OK");
             return;
         }
@@ -70,5 +70,4 @@ public partial class LoginPage : ContentPage
         UserNameEntry.Text = string.Empty;
         PasswordEntry.Text = string.Empty;
     }
-
 }

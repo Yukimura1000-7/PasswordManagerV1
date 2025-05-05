@@ -11,35 +11,7 @@
                HorizontalOptions="Center" 
                Margin="0,0,0,10" />
 
-        <!-- Поле для ввода сервиса -->
-        <Entry x:Name="ServiceNameEntry" 
-               Text="{Binding ServiceName}" 
-               Placeholder="Название сервиса" 
-               Keyboard="Default" 
-               BackgroundColor="LightGray" 
-               TextColor="Black" 
-               HeightRequest="40" />
-        
-        <!--Поле для ввода пользовательского логина-->
-        <Entry x:Name="LoginEntry" 
-               Text="{Binding Login}" 
-               Placeholder="Логин" 
-               Keyboard="Default" 
-               BackgroundColor="LightGray" 
-               TextColor="Black" 
-               HeightRequest="40" />
-
-        <!--Поле для ввода пользовательского пароля-->
-        <Entry x:Name="PasswordEntry" 
-               Text="{Binding Password}" 
-               Placeholder="Пароль" 
-               IsPassword="True" 
-               Keyboard="Default" 
-               BackgroundColor="LightGray" 
-               TextColor="Black" 
-               HeightRequest="40" />
-        
-        <!-- Кнопка добавления аккаунта -->
+        <!-- Кнопка добавления -->
         <Button Text="Добавить аккаунт" 
                 Clicked="OnAddAccountClicked" 
                 BackgroundColor="DodgerBlue" 
@@ -48,7 +20,7 @@
                 HeightRequest="40" 
                 Margin="0,10,0,0" />
 
-        <!-- Список сохраненных аккаунтов -->
+        <!-- Список аккаунтов -->
         <ListView ItemsSource="{Binding Accounts}" 
                   ItemTapped="OnAccountSelected">
             <ListView.ItemTemplate>
