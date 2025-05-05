@@ -26,7 +26,7 @@ namespace PasswordManagerV1.ViewModels
             LoadAccountsCommand = new Command(async () => await LoadAccounts());
             LoadAccountsCommand.Execute(null);
 
-         
+
 
             AddAccountCommand = new Command<string[]>(async (parameters) =>
             {
@@ -79,14 +79,19 @@ namespace PasswordManagerV1.ViewModels
             await _databaseService.SaveAccountAsync(account);
         }
 
-        public async Task UpdateAccount(UserAccount account)
+        public async Task UpdateAccount(UserAccount oldAccount, UserAccount newAccount)
         {
-            var index = Accounts.IndexOf(Accounts.FirstOrDefault(a => a.Id == account.Id));
+            var index = Accounts.IndexOf(Accounts.FirstOrDefault(a => a.Id == oldAccount.Id));
             if (index >= 0)
             {
                 Accounts.RemoveAt(index);
-                Accounts.Insert(index, account);
+                Accounts.Insert(index, newAccount);
             }
+        }
+
+        public async Task DeleteAccountAsync(UserAccount account)
+        {
+            await _databaseService.DeleteAccountAsync(account);
         }
     }
 }

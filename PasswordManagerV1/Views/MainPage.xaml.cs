@@ -56,13 +56,18 @@ namespace PasswordManagerV1.Views
                 null,
                 "Редактировать",
                 "Копировать логин",
-                "Копировать пароль"
+                "Копировать пароль",
+                "Удалить запись"
             );
 
             switch (result)
             {
                 case "Редактировать":
                     await EditAccount(account);
+                    break;
+                case "Копировать логин":
+                    Clipboard.SetTextAsync(account.Login);
+                    await DisplayAlert("Успех", "Логин скопирован в буфер обмена", "ОК");
                     break;
                 case "Копировать пароль":
                     try
@@ -76,11 +81,27 @@ namespace PasswordManagerV1.Views
                         await DisplayAlert("Ошибка", $"Не удалось расшифровать пароль: {ex.Message}", "ОК");
                     }
                     break;
+                case "Удалить запись":
+                    var confirm = await Application.Current.MainPage.DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить этот аккаунт?", "Да", "Нет");
+
+                    if (confirm)
+                    {
+                        try
+                        {
+                            var viewModel = (ViewModels.MainViewModel)BindingContext;
+
+                            await viewModel.DeleteAccountAsync(account);
+
+                            await viewModel.LoadAccounts();
+                        }
+                        catch (Exception ex)
+                        {
+                            await DisplayAlert("Ошибка", $"Не удалось удалить аккаунт: {ex.Message}", "ОК");
+                        }
+                    }
+                    break;
             }
         }
-
-
-
         private async Task EditAccount(UserAccount account)
         {
             var decryptedPassword = Services.EncryptionService.Decrypt(account.EncryptedPassword);
@@ -91,13 +112,29 @@ namespace PasswordManagerV1.Views
 
             if (!string.IsNullOrEmpty(serviceName) && !string.IsNullOrEmpty(login) && !string.IsNullOrEmpty(password))
             {
-                account.ServiceName = serviceName;
-                account.Login = login;
-                account.EncryptedPassword = Services.EncryptionService.Encrypt(password);
+                var newAccount = new Models.UserAccount
+                {
+                    Id = account.Id,
+                    UserId = account.UserId,
+                    ServiceName = serviceName,
+                    Login = login,
+                    EncryptedPassword = Services.EncryptionService.Encrypt(password)
+                };
 
                 var viewModel = (ViewModels.MainViewModel)BindingContext;
-                await viewModel.SaveAccountAsync(account);
-                await viewModel.LoadAccounts(); // Перезагрузить список
+
+                try
+                {
+                    await viewModel.DeleteAccountAsync(account);
+
+                    await viewModel.SaveAccountAsync(newAccount);
+
+                    await viewModel.LoadAccounts();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Ошибка", $"Не удалось сохранить аккаунт: {ex.Message}", "ОК");
+                }
             }
         }
     }
